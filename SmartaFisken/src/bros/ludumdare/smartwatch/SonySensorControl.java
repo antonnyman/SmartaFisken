@@ -71,6 +71,9 @@ import java.util.List;
  * we have registered to
  */
 class SonySensorControl extends ControlExtension {
+	
+	boolean before = false;
+	boolean after = false;
 
     private int mWidth = 220;
     private int mHeight = 176;
@@ -87,10 +90,16 @@ class SonySensorControl extends ControlExtension {
             float y = data[1];
             float z = data[2];
             
+            Log.d("sensor x", String.valueOf(x));
+            
             if(x > 8) {
             	
-                Log.d("sensor x", String.valueOf(x));
-                
+            	before = true;
+            	if (before == true && after == false) {
+            		startVibrator(100, 100, 1);
+            		after = true;
+            	}
+          
                 Intent intent = new Intent(mContext, SonyPreferenceActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -99,15 +108,11 @@ class SonySensorControl extends ControlExtension {
         	    intent.putExtra("y-value", Float.toString(y));
         	    intent.putExtra("z-value", Float.toString(z));
         	    mContext.startActivity(intent);
-            }
+        	    }
         }
            
     };
     
-    protected void sendText(int layoutReference, String text) {
-//    	
-    };
-
 
     SonySensorControl(final String hostAppPackageName, final Context context) {
         super(context, hostAppPackageName);

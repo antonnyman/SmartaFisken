@@ -10,20 +10,20 @@
         android:id="@+id/textView_xvalue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Sample Text" >
+        android:hint="X-value" >
     </TextView>
 
     <TextView
         android:id="@+id/textView_yvalue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:hint="Y-value" />
     
     <TextView
         android:id="@+id/textView_zvalue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:hint="Z-value" />
     
     <Button
         android:id="@+id/magic_button"
