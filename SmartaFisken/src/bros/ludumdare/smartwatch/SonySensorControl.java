@@ -82,21 +82,26 @@ class SonySensorControl extends ControlExtension {
     	
         @Override
         public void onSensorEvent(AccessorySensorEvent sensorEvent) {
-            Log.d(SonyExtensionService.LOG_TAG, "Listener: OnSensorEvent");
             float[] data = sensorEvent.getSensorValues();
             float x = data[0];
             float y = data[1];
             float z = data[2];
             
-            Log.d("sensor x", String.valueOf(x));
-            
-            Intent intent = new Intent(mContext, SonyPreferenceActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-    	    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-    	    intent.putExtra("values", Float.toString(x));
-    	    mContext.startActivity(intent);
+            if(x > 8) {
+            	
+                Log.d("sensor x", String.valueOf(x));
+                
+                Intent intent = new Intent(mContext, SonyPreferenceActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        	    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        	    intent.putExtra("x-value", Float.toString(x));
+        	    intent.putExtra("y-value", Float.toString(y));
+        	    intent.putExtra("z-value", Float.toString(z));
+        	    mContext.startActivity(intent);
+            }
         }
+           
     };
     
     protected void sendText(int layoutReference, String text) {

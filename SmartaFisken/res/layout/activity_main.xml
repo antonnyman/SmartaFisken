@@ -7,12 +7,23 @@
     android:orientation="vertical">
     
     <TextView
-        android:id="@+id/textView_readings"
-        android:layout_weight="1"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
+        android:id="@+id/textView_xvalue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:hint="Sample Text" >
     </TextView>
+
+    <TextView
+        android:id="@+id/textView_yvalue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+    
+    <TextView
+        android:id="@+id/textView_zvalue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
     
     <Button
         android:id="@+id/magic_button"
