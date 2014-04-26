@@ -92,7 +92,7 @@ class SonySensorControl extends ControlExtension {
             
             Log.d("sensor x", String.valueOf(x));
             
-            if(x > 8) {
+            if(y > 10) {
             	
             	before = true;
             	if (before == true && after == false) {
