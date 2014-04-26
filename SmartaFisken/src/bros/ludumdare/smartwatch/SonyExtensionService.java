@@ -42,7 +42,7 @@ import com.sonyericsson.extras.liveware.extension.util.registration.Registration
  * The Sample Extension Service handles registration and keeps track of all
  * sensors on all accessories.
  */
-public class SampleExtensionService extends ExtensionService {
+public class SonyExtensionService extends ExtensionService {
 
     public static final String EXTENSION_KEY = "com.sonyericsson.extras.liveware.extension.sensorsample.key";
 
@@ -50,7 +50,7 @@ public class SampleExtensionService extends ExtensionService {
 
     public final String CLASS = getClass().getSimpleName();
 
-    public SampleExtensionService() {
+    public SonyExtensionService() {
         super(EXTENSION_KEY);
     }
 
@@ -62,7 +62,7 @@ public class SampleExtensionService extends ExtensionService {
 
     @Override
     protected RegistrationInformation getRegistrationInformation() {
-        return new SampleRegistrationInformation(this);
+        return new SonyRegistrationInformation(this);
     }
 
     @Override
@@ -72,6 +72,6 @@ public class SampleExtensionService extends ExtensionService {
 
     @Override
     public ControlExtension createControlExtension(String hostAppPackageName) {
-        return new SampleSensorControl(hostAppPackageName, this);
+        return new SonySensorControl(hostAppPackageName, this);
     }
 }

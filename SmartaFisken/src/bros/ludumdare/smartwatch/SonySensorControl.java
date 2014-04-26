@@ -70,7 +70,7 @@ import java.util.List;
  * This class exists in one instance for every supported host application that
  * we have registered to
  */
-class SampleSensorControl extends ControlExtension {
+class SonySensorControl extends ControlExtension {
 
     private int mWidth = 220;
     private int mHeight = 176;
@@ -82,7 +82,7 @@ class SampleSensorControl extends ControlExtension {
     	
         @Override
         public void onSensorEvent(AccessorySensorEvent sensorEvent) {
-            Log.d(SampleExtensionService.LOG_TAG, "Listener: OnSensorEvent");
+            Log.d(SonyExtensionService.LOG_TAG, "Listener: OnSensorEvent");
             float[] data = sensorEvent.getSensorValues();
             float x = data[0];
             float y = data[1];
@@ -90,7 +90,7 @@ class SampleSensorControl extends ControlExtension {
             
             Log.d("sensor x", String.valueOf(x));
             
-            Intent intent = new Intent(mContext, SamplePreferenceActivity.class);
+            Intent intent = new Intent(mContext, SonyPreferenceActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     	    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -104,7 +104,7 @@ class SampleSensorControl extends ControlExtension {
     };
 
 
-    SampleSensorControl(final String hostAppPackageName, final Context context) {
+    SonySensorControl(final String hostAppPackageName, final Context context) {
         super(context, hostAppPackageName);
 
         AccessorySensorManager manager = new AccessorySensorManager(context, hostAppPackageName);
@@ -119,18 +119,14 @@ class SampleSensorControl extends ControlExtension {
 
     @Override
     public void onResume() {
-        Log.d(SampleExtensionService.LOG_TAG, "Starting control");
-
+        Log.d(SonyExtensionService.LOG_TAG, "Starting control");
         showLayout(R.layout.sensor, null);
-        
-        // Note: Setting the screen to be always on will drain the accessory
-        // battery. It is done here solely for demonstration purposes
         setScreenState(Control.Intents.SCREEN_STATE_DIM);
-
         // Start listening for sensor updates.
         register();
     }
 
+    
     @Override
     public void onPause() {
         // Stop sensor
@@ -139,17 +135,21 @@ class SampleSensorControl extends ControlExtension {
 
     @Override
     public void onDestroy() {
-        // Stop sensor
         unregisterAndDestroy();
     }
+    
+    private void unregister() {
+        if (mSensor != null) {
+            mSensor.unregisterListener();
+        }
+    }
 
-    /**
-     * Check if control supports the given width
-     * 
-     * @param context The context.
-     * @param int width The width.
-     * @return true if the control supports the given width
-     */
+    private void unregisterAndDestroy() {
+        unregister();
+        mSensor = null;
+    }
+
+ 
     public static boolean isWidthSupported(Context context, int width) {
         return width == context.getResources().getDimensionPixelSize(
                 R.dimen.smart_watch_2_control_width)
@@ -157,13 +157,7 @@ class SampleSensorControl extends ControlExtension {
                         R.dimen.smart_watch_control_width);
     }
 
-    /**
-     * Check if control supports the given height
-     * 
-     * @param context The context.
-     * @param int height The height.
-     * @return true if the control supports the given height
-     */
+
     public static boolean isHeightSupported(Context context, int height) {
         return height == context.getResources().getDimensionPixelSize(
                 R.dimen.smart_watch_2_control_height)
@@ -172,7 +166,7 @@ class SampleSensorControl extends ControlExtension {
     }
 
     private void determineSize(Context context, String hostAppPackageName) {
-        Log.d(SampleExtensionService.LOG_TAG, "Now determine screen size.");
+        Log.d(SonyExtensionService.LOG_TAG, "Now determine screen size.");
 
         boolean smartWatch2Supported = DeviceInfoHelper.isSmartWatch2ApiAndScreenDetected(context,
                 hostAppPackageName);
@@ -192,7 +186,7 @@ class SampleSensorControl extends ControlExtension {
 
 
     private void register() {
-        Log.d(SampleExtensionService.LOG_TAG, "Register listener");
+        Log.d(SonyExtensionService.LOG_TAG, "Register listener");
         if (mSensor != null) {
             try {
                 if (mSensor.isInterruptModeSupported()) {
@@ -202,36 +196,8 @@ class SampleSensorControl extends ControlExtension {
                             Sensor.SensorRates.SENSOR_DELAY_UI);
                 }
             } catch (AccessorySensorException e) {
-                Log.d(SampleExtensionService.LOG_TAG, "Failed to register listener", e);
+                Log.d(SonyExtensionService.LOG_TAG, "Failed to register listener", e);
             }
-        }
-    }
-
-    private void unregister() {
-        if (mSensor != null) {
-            mSensor.unregisterListener();
-        }
-    }
-
-    private void unregisterAndDestroy() {
-        unregister();
-        mSensor = null;
-    }
-
-    @SuppressLint("DefaultLocale")
-    private String getAccuracyText(int accuracy) {
-
-        switch (accuracy) {
-            case SensorAccuracy.SENSOR_STATUS_UNRELIABLE:
-                return mContext.getString(R.string.accuracy_unreliable);
-            case SensorAccuracy.SENSOR_STATUS_ACCURACY_LOW:
-                return mContext.getString(R.string.accuracy_low);
-            case SensorAccuracy.SENSOR_STATUS_ACCURACY_MEDIUM:
-                return mContext.getString(R.string.accuracy_medium);
-            case SensorAccuracy.SENSOR_STATUS_ACCURACY_HIGH:
-                return mContext.getString(R.string.accuracy_high);
-            default:
-                return String.format("%d", accuracy);
         }
     }
 }

@@ -40,7 +40,7 @@ import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class SamplePreferenceActivity extends Activity {
+public class SonyPreferenceActivity extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

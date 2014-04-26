@@ -45,7 +45,7 @@ import com.sonymobile.smartconnect.extension.sensorsample.R;
 /**
  * Provides information needed during extension registration
  */
-public class SampleRegistrationInformation extends RegistrationInformation {
+public class SonyRegistrationInformation extends RegistrationInformation {
 
     final Context mContext;
 
@@ -54,7 +54,7 @@ public class SampleRegistrationInformation extends RegistrationInformation {
      *
      * @param context The context
      */
-    protected SampleRegistrationInformation(Context context) {
+    protected SonyRegistrationInformation(Context context) {
         if (context == null) {
             throw new IllegalArgumentException("context == null");
         }
@@ -94,12 +94,12 @@ public class SampleRegistrationInformation extends RegistrationInformation {
         ContentValues values = new ContentValues();
 
         values.put(Registration.ExtensionColumns.CONFIGURATION_ACTIVITY,
-                SamplePreferenceActivity.class.getName());
+                SonyPreferenceActivity.class.getName());
         values.put(Registration.ExtensionColumns.CONFIGURATION_TEXT,
                 mContext.getString(R.string.configuration_text));
         values.put(Registration.ExtensionColumns.NAME, mContext.getString(R.string.extension_name));
         values.put(Registration.ExtensionColumns.EXTENSION_KEY,
-                SampleExtensionService.EXTENSION_KEY);
+                SonyExtensionService.EXTENSION_KEY);
         values.put(Registration.ExtensionColumns.HOST_APP_ICON_URI, iconHostapp);
         values.put(Registration.ExtensionColumns.EXTENSION_ICON_URI, iconExtension);
         values.put(Registration.ExtensionColumns.NOTIFICATION_API_VERSION,
@@ -111,7 +111,7 @@ public class SampleRegistrationInformation extends RegistrationInformation {
 
     @Override
     public boolean isDisplaySizeSupported(int width, int height) {
-        return (SampleSensorControl.isWidthSupported(mContext, width) && SampleSensorControl
+        return (SonySensorControl.isWidthSupported(mContext, width) && SonySensorControl
                 .isHeightSupported(mContext, height));
     }
 
