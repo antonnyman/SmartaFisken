@@ -38,6 +38,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.hardware.SensorEvent;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -64,6 +65,7 @@ import com.sonymobile.smartconnect.extension.sensorsample.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimerTask;
 
 /**
  * The sample sensor control handles the accelerometer sensor on an accessory.
@@ -74,6 +76,7 @@ class SonySensorControl extends ControlExtension {
 	
 	boolean before = false;
 	boolean after = false;
+
 
     private int mWidth = 220;
     private int mHeight = 176;
