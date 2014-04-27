@@ -76,7 +76,11 @@ import java.util.TimerTask;
 class SonySensorControl extends ControlExtension {
 	
 	int delay;
+	long start;
+	long passedTime;
 	Timer fiskTimer;
+	boolean ryck = false;
+	boolean gotFish = false;
 	
     private int mWidth = 220;
     private int mHeight = 176;
@@ -95,17 +99,24 @@ class SonySensorControl extends ControlExtension {
             
             Log.d("sensor x", String.valueOf(x));
             
-            if(y > 11) {
-//            	
-            }
-                Intent intent = new Intent(mContext, SonyPreferenceActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        	    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        	    intent.putExtra("x-value", Float.toString(x));
-        	    intent.putExtra("y-value", Float.toString(y));
-        	    intent.putExtra("z-value", Float.toString(z));
-        	    mContext.startActivity(intent);
+            Intent intent = new Intent(mContext, SonyPreferenceActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    	    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+    	    
+    	    intent.putExtra("x-value", Float.toString(x));
+    	    intent.putExtra("y-value", Float.toString(y));
+    	    intent.putExtra("z-value", Float.toString(z));
+    	    mContext.startActivity(intent);
+    	    
+    	    if(y > 10) {
+    	    	ryck = true;
+    	    }
+    	    
+    	    passedTime = System.currentTimeMillis() - start;
+    	    if(passedTime > delay && passedTime < delay + 500 && ryck == true) {
+    	    	gotFish = true;
+    	    }
         }
            
     };
@@ -127,6 +138,9 @@ class SonySensorControl extends ControlExtension {
     @Override
     public void onResume() {
         Log.d(SonyExtensionService.LOG_TAG, "Starting control");
+        
+        start = System.currentTimeMillis();
+        Log.i("Resume", String.valueOf(start));
         
         delay = Static.ON_START_WAIT_TIME[Static.randomInt(0, Static.ON_START_WAIT_TIME.length-1)];
         showLayout(R.layout.sensor, null);

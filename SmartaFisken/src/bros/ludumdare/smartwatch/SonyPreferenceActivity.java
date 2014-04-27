@@ -51,20 +51,22 @@ public class SonyPreferenceActivity extends Activity {
     
 	@Override
 	protected void onNewIntent(Intent intent) {
-//		once = true;
-		
+
+		setContentView(R.layout.activity_main);
 		String x = intent.getStringExtra("x-value");
 		String y = intent.getStringExtra("y-value");
 		String z = intent.getStringExtra("z-value");
+		String fisk = intent.getStringExtra("score");
 		
 		TextView xValue = (TextView) findViewById(R.id.textView_xvalue);
 		TextView yValue = (TextView) findViewById(R.id.textView_yvalue);
 		TextView zValue = (TextView) findViewById(R.id.textView_zvalue);
-		TextView totalScoreTv = (TextView) findViewById(R.id.textView_score);
+		TextView fiskText = (TextView) findViewById(R.id.textView_score);
 		
 		xValue.setText(x);
 		yValue.setText(y);
-		zValue.setText(z);
+		zValue.setText(z);  
+		fiskText.setText(fisk);
 
 	}
 
