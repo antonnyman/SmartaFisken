@@ -77,12 +77,13 @@ import java.util.TimerTask;
 class SonySensorControl extends ControlExtension {
 	
 	int delay;
-	long start;
-	long passedTime;
-	Timer fiskTimer;
-	boolean ryck = false;
-	boolean gotFish = false;
+	long startTime;
+	long currentTime;
 	
+	boolean aboveTen = false;
+
+	Timer fiskTimer;
+
     private int mWidth = 220;
     private int mHeight = 176;
 
@@ -90,7 +91,6 @@ class SonySensorControl extends ControlExtension {
 
     private final AccessorySensorEventListener mListener = new AccessorySensorEventListener() {
 
-    	
         @Override
         public void onSensorEvent(AccessorySensorEvent sensorEvent) {
             float[] data = sensorEvent.getSensorValues();
@@ -104,16 +104,27 @@ class SonySensorControl extends ControlExtension {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     	    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-    	    
     	    intent.putExtra("x-value", Float.toString(x));
     	    intent.putExtra("y-value", Float.toString(y));
     	    intent.putExtra("z-value", Float.toString(z));
-    	    mContext.startActivity(intent);
     	    
-    	    if(y > 10) {
-    	    	ryck = true;
+    	    currentTime = System.currentTimeMillis() - startTime;
+    	    Log.i("Resume", String.valueOf(currentTime));
+    	    
+    	    if (y > 10) {
+    	    	aboveTen = true;
     	    }
+    	    
+    	    
+	    	    if(currentTime > delay && currentTime < delay + 500 && aboveTen == true) {
+	    	    	intent.putExtra("gotFish", "You got fish!");
+	    	    	aboveTen = false;
+	    	    }
+	    	    
+	    	mContext.startActivity(intent);
+    	    
         }
+        
     };
     
 
@@ -132,39 +143,20 @@ class SonySensorControl extends ControlExtension {
 
     @Override
     public void onResume() {
-        Log.d(SonyExtensionService.LOG_TAG, "Starting control");
-        
-        start = System.currentTimeMillis();
-        Log.i("Resume", String.valueOf(start));
-        
-        delay = Static.ON_START_WAIT_TIME[Static.randomInt(0, Static.ON_START_WAIT_TIME.length-1)];
+        startTime = System.currentTimeMillis();
         showLayout(R.layout.sensor, null);
         setScreenState(Control.Intents.SCREEN_STATE_DIM);
         register();
         
-        
+        delay = Static.ON_START_WAIT_TIME[Static.randomInt(0, Static.ON_START_WAIT_TIME.length-1)];
+
         fiskTimer = new Timer();
         TimerTask fiskTask = new TimerTask() {
         	public void run() {
         		startVibrator(100, 100, 1);
         	}
         };
-        
-        fiskTimer.schedule(fiskTask, delay);
-        
-	    passedTime = System.currentTimeMillis() - start;
-	    if(passedTime > delay && passedTime < delay + 500 && ryck == true) {
-	    	gotFish = true;
-	    }
-	  
-	    if (gotFish == true) {
-	    	Intent fishIntent = new Intent(mContext, SonyPreferenceActivity.class);
-            fishIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    		fishIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-    	    fishIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-	    	fishIntent.putExtra("gotFish", "You got a fish!");
-	    }
-        
+        fiskTimer.schedule(fiskTask, delay); 
     }
 
     

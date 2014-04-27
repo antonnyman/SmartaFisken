@@ -56,7 +56,7 @@ public class SonyPreferenceActivity extends Activity {
 		String x = intent.getStringExtra("x-value");
 		String y = intent.getStringExtra("y-value");
 		String z = intent.getStringExtra("z-value");
-		String fisk = intent.getStringExtra("score");
+		String fisk = intent.getStringExtra("gotFish");
 		
 		TextView xValue = (TextView) findViewById(R.id.textView_xvalue);
 		TextView yValue = (TextView) findViewById(R.id.textView_yvalue);
