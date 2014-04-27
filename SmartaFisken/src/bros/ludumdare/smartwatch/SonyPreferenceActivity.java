@@ -75,33 +75,31 @@ public class SonyPreferenceActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+         
     }
     
     @Override
     protected void onNewIntent(Intent intent) {
-            noDuplicates++;
+        noDuplicates++;
+        int intentArrayValue = intent.getIntExtra("gotFish", intKey);
+        mArrayValue = intentArrayValue;
            
             String x = intent.getStringExtra("x-value");
             String y = intent.getStringExtra("y-value");
             String z = intent.getStringExtra("z-value");
-          int intentArrayValue = intent.getIntExtra("gotFish", intKey);
-          mArrayValue = intentArrayValue;
-            
-            if(noDuplicates >= 10){
+
+            if(noDuplicates >= 10) {
                     updateList();
                     noDuplicates = 0;
             }
-           
-           
+
             TextView xValue = (TextView) findViewById(R.id.textView_xvalue);
             TextView yValue = (TextView) findViewById(R.id.textView_yvalue);
             TextView zValue = (TextView) findViewById(R.id.textView_zvalue);
            
-            xValue.setText(x);
-            yValue.setText(y);
-            zValue.setText(z);
-
+            xValue.setText("x: " + x);
+            yValue.setText("y: " + y);
+            zValue.setText("z: " + z);
     }
 
 }

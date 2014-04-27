@@ -8,6 +8,6 @@
         android:id="@+id/ic_extension_fish"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_kasta_i" />
+        android:src="@drawable/ic_extension_float" />
 
 </LinearLayout>

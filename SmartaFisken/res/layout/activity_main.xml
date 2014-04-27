@@ -4,36 +4,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:ignore="MergeRootFrame" >
- 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    tools:ignore="MergeRootFrame"
+    android:background="@drawable/bg">
+    
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="horizontal" >
  
         <TextView
             android:id="@+id/textView_xvalue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#fff"
             android:hint="X-value" />
  
         <TextView
             android:id="@+id/textView_yvalue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#fff"
             android:hint="Y-value" />
  
         <TextView
             android:id="@+id/textView_zvalue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#fff"
             android:hint="Z-value" />
- 
-        <TextView
-            android:id="@+id/textView_score"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="Score" />
+
     </LinearLayout>
  
     <GridView

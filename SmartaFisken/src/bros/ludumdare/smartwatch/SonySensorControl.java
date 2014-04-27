@@ -82,7 +82,7 @@ class SonySensorControl extends ControlExtension {
 	long startTime;
 	long currentTime;
 	
-	boolean aboveTen = false;
+	boolean ryck = false;
 
 	Timer fiskTimer;
 
@@ -100,8 +100,6 @@ class SonySensorControl extends ControlExtension {
             float y = data[1];
             float z = data[2];
             
-            Log.d("sensor x", String.valueOf(x));
-            
             Intent intent = new Intent(mContext, SonyPreferenceActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -110,19 +108,19 @@ class SonySensorControl extends ControlExtension {
     	    intent.putExtra("y-value", Float.toString(y));
     	    intent.putExtra("z-value", Float.toString(z));
     	    
-    	    currentTime = System.currentTimeMillis() - startTime;
-    	    Log.i("Resume", String.valueOf(currentTime));
     	    
-    	    if (y > 8) {
-    	    	aboveTen = true;
+    	    currentTime = System.currentTimeMillis() - startTime;
+    	    
+    	    if(y > 8 && currentTime > delay) {
+    	    	ryck = true;
     	    }
- 
-	    	    if(currentTime > delay && currentTime < delay + 1000 && aboveTen == true) {
-	    	    	intent.putExtra("gotFish", rndm);
+    	    
+    	    if (ryck == true && currentTime < delay + 1000) {
+    	    		intent.putExtra("gotFish", rndm);
 	    	    	mContext.startActivity(intent);
-	    	    }
+    	    }
+    	        	    
         }
-
     };
     
 
@@ -142,19 +140,20 @@ class SonySensorControl extends ControlExtension {
     @Override
     public void onResume() {
     	
-    	aboveTen = false;
-    	rndm = Static.randomInt(0, 6);
-        startTime = System.currentTimeMillis();
-        showLayout(R.layout.sensor, null);
-        setScreenState(Control.Intents.SCREEN_STATE_DIM);
         register();
+    	ryck = false;
+    	rndm = Static.randomInt(0, 9);
+        startTime = System.currentTimeMillis();
+        
+        showLayout(R.layout.sensor2, null);
+        setScreenState(Control.Intents.SCREEN_STATE_ON);
         
         delay = Static.ON_START_WAIT_TIME[rndm];
 
         fiskTimer = new Timer();
         TimerTask fiskTask = new TimerTask() {
         	public void run() {
-        		startVibrator(100, 100, 1);
+        		startVibrator(100, 1, 1);
         	}
         };
         fiskTimer.schedule(fiskTask, delay); 
