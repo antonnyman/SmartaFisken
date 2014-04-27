@@ -6,7 +6,7 @@ import com.sonymobile.smartconnect.extension.sensorsample.R;
 
 public class Static {
 
-	public static final int[] ON_START_WAIT_TIME = { 500, 1000, 1500, 2000, 2500, 3000 };
+	public static final int[] ON_START_WAIT_TIME = { 5000, 4000, 6000, 7000, 8000, 9000, 10000 };
 	public static final int[] FISH_ARRAY = { R.drawable.ic_fisharray_fish_1, R.drawable.ic_fisharray_fish_1, R.drawable.ic_fisharray_fish_1, R.drawable.ic_fisharray_fish_1, R.drawable.ic_fisharray_fish_1, R.drawable.ic_fisharray_fish_1 };
 	public static final String[] GOOD_HUNTING_MESSAGES = { "Vilken baddare!", "Vilken baddare!", "Vilken baddare!", "Vilken baddare!", "Vilken baddare!", "Vilken baddare!" };
 	

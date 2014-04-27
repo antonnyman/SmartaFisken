@@ -65,7 +65,6 @@ public class SonyPreferenceActivity extends Activity {
             mGrid = (GridView) findViewById(R.id.fishGridView);
             mAdapter = new FishGridAdapter(getApplicationContext(), mGridItem, mFishes);
             mGrid.setAdapter(mAdapter);
-            updateList();
     }
     
     public void updateList() {
@@ -98,7 +97,6 @@ public class SonyPreferenceActivity extends Activity {
             TextView xValue = (TextView) findViewById(R.id.textView_xvalue);
             TextView yValue = (TextView) findViewById(R.id.textView_yvalue);
             TextView zValue = (TextView) findViewById(R.id.textView_zvalue);
-            TextView totalScoreTv = (TextView) findViewById(R.id.textView_score);
            
             xValue.setText(x);
             yValue.setText(y);

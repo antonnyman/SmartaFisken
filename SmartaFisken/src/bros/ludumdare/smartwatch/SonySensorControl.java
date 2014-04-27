@@ -113,14 +113,13 @@ class SonySensorControl extends ControlExtension {
     	    currentTime = System.currentTimeMillis() - startTime;
     	    Log.i("Resume", String.valueOf(currentTime));
     	    
-    	    if (y > 10) {
+    	    if (y > 8) {
     	    	aboveTen = true;
     	    }
  
-	    	    if(currentTime > delay && currentTime < delay + 1000) {
+	    	    if(currentTime > delay && currentTime < delay + 1000 && aboveTen == true) {
 	    	    	intent.putExtra("gotFish", rndm);
 	    	    	mContext.startActivity(intent);
-	    	    	aboveTen = false;
 	    	    }
         }
 
@@ -143,6 +142,7 @@ class SonySensorControl extends ControlExtension {
     @Override
     public void onResume() {
     	
+    	aboveTen = false;
     	rndm = Static.randomInt(0, 6);
         startTime = System.currentTimeMillis();
         showLayout(R.layout.sensor, null);

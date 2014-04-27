@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/fish_gridView_item_image"
         android:layout_centerHorizontal="true"
+        android:textColor="#222"
         android:text="TextView" />
  
 </RelativeLayout>
