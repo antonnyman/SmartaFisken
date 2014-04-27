@@ -45,6 +45,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.webkit.WebView.FindListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -112,13 +113,7 @@ class SonySensorControl extends ControlExtension {
     	    if(y > 10) {
     	    	ryck = true;
     	    }
-    	    
-    	    passedTime = System.currentTimeMillis() - start;
-    	    if(passedTime > delay && passedTime < delay + 500 && ryck == true) {
-    	    	gotFish = true;
-    	    }
         }
-           
     };
     
 
@@ -156,6 +151,19 @@ class SonySensorControl extends ControlExtension {
         };
         
         fiskTimer.schedule(fiskTask, delay);
+        
+	    passedTime = System.currentTimeMillis() - start;
+	    if(passedTime > delay && passedTime < delay + 500 && ryck == true) {
+	    	gotFish = true;
+	    }
+	  
+	    if (gotFish == true) {
+	    	Intent fishIntent = new Intent(mContext, SonyPreferenceActivity.class);
+            fishIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    		fishIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    	    fishIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+	    	fishIntent.putExtra("gotFish", "You got a fish!");
+	    }
         
     }
 
