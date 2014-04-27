@@ -88,8 +88,8 @@ public class SonyRegistrationInformation extends RegistrationInformation {
      */
     @Override
     public ContentValues getExtensionRegistrationConfiguration() {
-        String iconHostapp = ExtensionUtils.getUriString(mContext, R.drawable.icon);
-        String iconExtension = ExtensionUtils.getUriString(mContext, R.drawable.icon_extension);
+        String iconHostapp = ExtensionUtils.getUriString(mContext, R.drawable.ic_extension_fish2);
+        String iconExtension = ExtensionUtils.getUriString(mContext, R.drawable.ic_extension_fish2);
 
         ContentValues values = new ContentValues();
 

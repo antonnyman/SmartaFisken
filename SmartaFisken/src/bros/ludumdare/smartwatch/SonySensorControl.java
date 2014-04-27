@@ -65,6 +65,7 @@ import com.sonymobile.smartconnect.extension.sensorsample.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 import java.util.TimerTask;
 
 /**
@@ -74,10 +75,9 @@ import java.util.TimerTask;
  */
 class SonySensorControl extends ControlExtension {
 	
-	boolean before = false;
-	boolean after = false;
-
-
+	int delay;
+	Timer fiskTimer;
+	
     private int mWidth = 220;
     private int mHeight = 176;
 
@@ -95,14 +95,9 @@ class SonySensorControl extends ControlExtension {
             
             Log.d("sensor x", String.valueOf(x));
             
-            if(y > 10) {
-            	
-            	before = true;
-            	if (before == true && after == false) {
-            		startVibrator(100, 100, 1);
-            		after = true;
-            	}
-          
+            if(y > 11) {
+//            	
+            }
                 Intent intent = new Intent(mContext, SonyPreferenceActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -111,7 +106,6 @@ class SonySensorControl extends ControlExtension {
         	    intent.putExtra("y-value", Float.toString(y));
         	    intent.putExtra("z-value", Float.toString(z));
         	    mContext.startActivity(intent);
-        	    }
         }
            
     };
@@ -133,10 +127,22 @@ class SonySensorControl extends ControlExtension {
     @Override
     public void onResume() {
         Log.d(SonyExtensionService.LOG_TAG, "Starting control");
+        
+        delay = Static.ON_START_WAIT_TIME[Static.randomInt(0, Static.ON_START_WAIT_TIME.length-1)];
         showLayout(R.layout.sensor, null);
         setScreenState(Control.Intents.SCREEN_STATE_DIM);
-        // Start listening for sensor updates.
         register();
+        
+        
+        fiskTimer = new Timer();
+        TimerTask fiskTask = new TimerTask() {
+        	public void run() {
+        		startVibrator(100, 100, 1);
+        	}
+        };
+        
+        fiskTimer.schedule(fiskTask, delay);
+        
     }
 
     
@@ -206,11 +212,20 @@ class SonySensorControl extends ControlExtension {
                     mSensor.registerInterruptListener(mListener);
                 } else {
                     mSensor.registerFixedRateListener(mListener,
-                            Sensor.SensorRates.SENSOR_DELAY_UI);
+                            Sensor.SensorRates.SENSOR_DELAY_GAME);
                 }
             } catch (AccessorySensorException e) {
                 Log.d(SonyExtensionService.LOG_TAG, "Failed to register listener", e);
             }
+        }
+    }
+    
+    @Override
+    public void onTouch(ControlTouchEvent event) {
+        super.onTouch(event);
+        if (event.getAction() == Control.Intents.TOUCH_ACTION_RELEASE) {
+            fiskTimer.cancel();
+            onResume();
         }
     }
 }

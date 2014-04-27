@@ -41,9 +41,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class SonyPreferenceActivity extends Activity {
-	
-	private int totalScore = 0;
-	boolean once;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,18 +51,11 @@ public class SonyPreferenceActivity extends Activity {
     
 	@Override
 	protected void onNewIntent(Intent intent) {
-		once = true;
+//		once = true;
 		
 		String x = intent.getStringExtra("x-value");
 		String y = intent.getStringExtra("y-value");
 		String z = intent.getStringExtra("z-value");
-		if(once) {
-			if(totalScore < (totalScore + 1)) {
-				totalScore = totalScore + 1;
-			}
-			once = false;
-		}
-
 		
 		TextView xValue = (TextView) findViewById(R.id.textView_xvalue);
 		TextView yValue = (TextView) findViewById(R.id.textView_yvalue);
@@ -75,7 +65,7 @@ public class SonyPreferenceActivity extends Activity {
 		xValue.setText(x);
 		yValue.setText(y);
 		zValue.setText(z);
-		totalScoreTv.setText(String.valueOf(totalScore));
+
 	}
 
 }
