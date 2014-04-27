@@ -32,16 +32,46 @@ Copyright (c) 2011-2013, Sony Mobile Communications AB
 
 package bros.ludumdare.smartwatch;
 
-import com.sonymobile.smartconnect.extension.sensorsample.R;
+import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.TextView;
 
-public class SonyPreferenceActivity extends Activity {
+import com.sonymobile.smartconnect.extension.sensorsample.R;
 
+public class SonyPreferenceActivity extends Activity {
+	
+	public static final int intKey = 0;
+	
+	private int                   	totalScore = 0;
+    public boolean                  getPoint;
+    private int                     noDuplicates = 0;
+   
+    private GridView                mGrid;
+    private FishGridAdapter 		mAdapter;
+    private ArrayList<Fish> 		mFishes = new ArrayList<Fish>();
+    private int                     mGridItem = R.layout.griditem_fish;
+    private Context                 mContext;
+    private int                     mArrayValue;
+
+    
+    @Override
+    protected void onStart() {
+            super.onStart();
+            mGrid = (GridView) findViewById(R.id.fishGridView);
+            mAdapter = new FishGridAdapter(getApplicationContext(), mGridItem, mFishes);
+            mGrid.setAdapter(mAdapter);
+            updateList();
+    }
+    
+    public void updateList() {
+        mFishes.add(new Fish(Static.GOOD_HUNTING_MESSAGES[mArrayValue], Static.FISH_ARRAY[mArrayValue]));
+}
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,25 +79,31 @@ public class SonyPreferenceActivity extends Activity {
         
     }
     
-	@Override
-	protected void onNewIntent(Intent intent) {
+    @Override
+    protected void onNewIntent(Intent intent) {
+            noDuplicates++;
+           
+            String x = intent.getStringExtra("x-value");
+            String y = intent.getStringExtra("y-value");
+            String z = intent.getStringExtra("z-value");
+          int intentArrayValue = intent.getIntExtra("gotFish", intKey);
+          mArrayValue = intentArrayValue;
+            
+            if(noDuplicates >= 10){
+                    updateList();
+                    noDuplicates = 0;
+            }
+           
+           
+            TextView xValue = (TextView) findViewById(R.id.textView_xvalue);
+            TextView yValue = (TextView) findViewById(R.id.textView_yvalue);
+            TextView zValue = (TextView) findViewById(R.id.textView_zvalue);
+            TextView totalScoreTv = (TextView) findViewById(R.id.textView_score);
+           
+            xValue.setText(x);
+            yValue.setText(y);
+            zValue.setText(z);
 
-		setContentView(R.layout.activity_main);
-		String x = intent.getStringExtra("x-value");
-		String y = intent.getStringExtra("y-value");
-		String z = intent.getStringExtra("z-value");
-		String fisk = intent.getStringExtra("gotFish");
-		
-		TextView xValue = (TextView) findViewById(R.id.textView_xvalue);
-		TextView yValue = (TextView) findViewById(R.id.textView_yvalue);
-		TextView zValue = (TextView) findViewById(R.id.textView_zvalue);
-		TextView fiskText = (TextView) findViewById(R.id.textView_score);
-		
-		xValue.setText(x);
-		yValue.setText(y);
-		zValue.setText(z);  
-		fiskText.setText(fisk);
-
-	}
+    }
 
 }

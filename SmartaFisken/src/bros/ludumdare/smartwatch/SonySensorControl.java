@@ -76,6 +76,8 @@ import java.util.TimerTask;
  */
 class SonySensorControl extends ControlExtension {
 	
+	int rndm;
+	
 	int delay;
 	long startTime;
 	long currentTime;
@@ -114,17 +116,14 @@ class SonySensorControl extends ControlExtension {
     	    if (y > 10) {
     	    	aboveTen = true;
     	    }
-    	    
-    	    
-	    	    if(currentTime > delay && currentTime < delay + 500 && aboveTen == true) {
-	    	    	intent.putExtra("gotFish", "You got fish!");
+ 
+	    	    if(currentTime > delay && currentTime < delay + 1000) {
+	    	    	intent.putExtra("gotFish", rndm);
+	    	    	mContext.startActivity(intent);
 	    	    	aboveTen = false;
 	    	    }
-	    	    
-	    	mContext.startActivity(intent);
-    	    
         }
-        
+
     };
     
 
@@ -143,12 +142,14 @@ class SonySensorControl extends ControlExtension {
 
     @Override
     public void onResume() {
+    	
+    	rndm = Static.randomInt(0, 6);
         startTime = System.currentTimeMillis();
         showLayout(R.layout.sensor, null);
         setScreenState(Control.Intents.SCREEN_STATE_DIM);
         register();
         
-        delay = Static.ON_START_WAIT_TIME[Static.randomInt(0, Static.ON_START_WAIT_TIME.length-1)];
+        delay = Static.ON_START_WAIT_TIME[rndm];
 
         fiskTimer = new Timer();
         TimerTask fiskTask = new TimerTask() {
