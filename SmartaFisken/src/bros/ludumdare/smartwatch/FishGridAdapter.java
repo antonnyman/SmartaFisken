@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 
 
-import com.sonymobile.smartconnect.extension.sensorsample.R;
 
 import android.content.Context;
 import android.view.LayoutInflater;

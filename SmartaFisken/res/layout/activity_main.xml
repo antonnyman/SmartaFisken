@@ -16,22 +16,19 @@
             android:id="@+id/textView_xvalue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#fff"
-            android:hint="X-value" />
+            android:textColor="#fff" />
  
         <TextView
             android:id="@+id/textView_yvalue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#fff"
-            android:hint="Y-value" />
+            android:textColor="#fff" />
  
         <TextView
             android:id="@+id/textView_zvalue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#fff"
-            android:hint="Z-value" />
+            android:textColor="#fff" />
 
     </LinearLayout>
  

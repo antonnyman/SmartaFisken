@@ -45,5 +45,7 @@
     <!-- Labels for the light sensor. -->
     <string name="label_light">light:&#160;</string>
     <string name="title_lightsensor">Light sensor</string>
+    
+    <string name="about_text">Detta är ett spel till Sony SmartWatch2 som gjordes av Isak Lilja och Anton Nyman under 2014 Ludum Dare Hackathon på Sony.\n\nSätt klockan på vänsterarmen, håll ut handen som om du håller i ett fiskespö och ryck uppåt när det nappar. Tryck sedan en gång på klockans display när du fångat en fisk för att kasta ut igen. </string>
 
 </resources>

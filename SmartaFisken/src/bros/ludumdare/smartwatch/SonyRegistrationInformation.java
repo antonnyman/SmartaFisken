@@ -40,7 +40,6 @@ import com.sonyericsson.extras.liveware.extension.util.ExtensionUtils;
 import com.sonyericsson.extras.liveware.extension.util.registration.HostApplicationInfo;
 import com.sonyericsson.extras.liveware.extension.util.registration.RegistrationInformation;
 import com.sonyericsson.extras.liveware.extension.util.sensor.AccessorySensor;
-import com.sonymobile.smartconnect.extension.sensorsample.R;
 
 /**
  * Provides information needed during extension registration
@@ -89,7 +88,7 @@ public class SonyRegistrationInformation extends RegistrationInformation {
     @Override
     public ContentValues getExtensionRegistrationConfiguration() {
         String iconHostapp = ExtensionUtils.getUriString(mContext, R.drawable.ic_extension_fish2);
-        String iconExtension = ExtensionUtils.getUriString(mContext, R.drawable.ic_extension_fish2);
+        String iconExtension = ExtensionUtils.getUriString(mContext, R.drawable.ic_extension_fish);
 
         ContentValues values = new ContentValues();
 

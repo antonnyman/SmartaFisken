@@ -48,6 +48,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.webkit.WebView.FindListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sonyericsson.extras.liveware.aef.control.Control;
 import com.sonyericsson.extras.liveware.aef.registration.Registration;
@@ -62,7 +63,6 @@ import com.sonyericsson.extras.liveware.extension.util.sensor.AccessorySensorEve
 import com.sonyericsson.extras.liveware.extension.util.sensor.AccessorySensorEventListener;
 import com.sonyericsson.extras.liveware.extension.util.sensor.AccessorySensorException;
 import com.sonyericsson.extras.liveware.extension.util.sensor.AccessorySensorManager;
-import com.sonymobile.smartconnect.extension.sensorsample.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,27 +99,27 @@ class SonySensorControl extends ControlExtension {
             float x = data[0];
             float y = data[1];
             float z = data[2];
-            
-            Intent intent = new Intent(mContext, SonyPreferenceActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-    	    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-    	    intent.putExtra("x-value", Float.toString(x));
-    	    intent.putExtra("y-value", Float.toString(y));
-    	    intent.putExtra("z-value", Float.toString(z));
-    	    
     	    
     	    currentTime = System.currentTimeMillis() - startTime;
     	    
-    	    if(y > 8 && currentTime > delay) {
+    	    if(y > 9 && currentTime > delay && currentTime < delay + 750) {
+    	    	
+                Intent intent = new Intent(mContext, SonyPreferenceActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        	    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//        	    intent.putExtra("x-value", Float.toString(x));
+//        	    intent.putExtra("y-value", Float.toString(y));
+//        	    intent.putExtra("z-value", Float.toString(z));
+	    		intent.putExtra("gotFish", rndm);
+    	    	mContext.startActivity(intent);
+    	    	unregister();
     	    	ryck = true;
-    	    }
-    	    
-    	    if (ryck == true && currentTime < delay + 1000) {
-    	    		intent.putExtra("gotFish", rndm);
-	    	    	mContext.startActivity(intent);
-    	    }
-    	        	    
+    	    	
+    	    } else if (currentTime > delay + 750 && ryck == false) {
+    	    	ryck = false;
+    	    	onResume();
+    	    }   	    
         }
     };
     
@@ -136,6 +136,14 @@ class SonySensorControl extends ControlExtension {
         // Determine screen size
         determineSize(context, hostAppPackageName);
     }
+    
+    @Override
+    public void onStart() {
+    	super.onStart();
+        showLayout(R.layout.sensor2, null);
+        setScreenState(Control.Intents.SCREEN_STATE_ON);
+    }
+    
 
     @Override
     public void onResume() {
@@ -144,9 +152,6 @@ class SonySensorControl extends ControlExtension {
     	ryck = false;
     	rndm = Static.randomInt(0, 9);
         startTime = System.currentTimeMillis();
-        
-        showLayout(R.layout.sensor2, null);
-        setScreenState(Control.Intents.SCREEN_STATE_ON);
         
         delay = Static.ON_START_WAIT_TIME[rndm];
 
@@ -157,6 +162,7 @@ class SonySensorControl extends ControlExtension {
         	}
         };
         fiskTimer.schedule(fiskTask, delay); 
+        
     }
 
     

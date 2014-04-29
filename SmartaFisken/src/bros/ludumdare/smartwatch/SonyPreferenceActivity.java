@@ -35,15 +35,20 @@ package bros.ludumdare.smartwatch;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.sonymobile.smartconnect.extension.sensorsample.R;
 
 public class SonyPreferenceActivity extends Activity {
+	
 	
 	public static final int intKey = 0;
 	
@@ -80,26 +85,43 @@ public class SonyPreferenceActivity extends Activity {
     
     @Override
     protected void onNewIntent(Intent intent) {
-        noDuplicates++;
+    	
         int intentArrayValue = intent.getIntExtra("gotFish", intKey);
         mArrayValue = intentArrayValue;
            
-            String x = intent.getStringExtra("x-value");
-            String y = intent.getStringExtra("y-value");
-            String z = intent.getStringExtra("z-value");
-
-            if(noDuplicates >= 10) {
-                    updateList();
-                    noDuplicates = 0;
-            }
+//            String x = intent.getStringExtra("x-value");
+//            String y = intent.getStringExtra("y-value");
+//            String z = intent.getStringExtra("z-value");
+            
+             
+            updateList();
 
             TextView xValue = (TextView) findViewById(R.id.textView_xvalue);
             TextView yValue = (TextView) findViewById(R.id.textView_yvalue);
             TextView zValue = (TextView) findViewById(R.id.textView_zvalue);
            
-            xValue.setText("x: " + x);
-            yValue.setText("y: " + y);
-            zValue.setText("z: " + z);
+            xValue.setText(" ");
+            yValue.setText(" ");
+            zValue.setText(" ");
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    	MenuInflater inflater = getMenuInflater();
+    	inflater.inflate(R.layout.main_menu, menu);
+    	return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	if (item.getItemId()==R.id.about){
+    		Dialog dialog = new Dialog(this);
+			dialog.setTitle("Om");
+			dialog.setContentView(R.layout.dialog);
+			dialog.show();
+    		return true;
+    	}
+    	return false;
     }
 
 }
