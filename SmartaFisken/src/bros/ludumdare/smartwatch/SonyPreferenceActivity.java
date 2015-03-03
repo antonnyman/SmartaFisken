@@ -39,6 +39,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -74,7 +75,8 @@ public class SonyPreferenceActivity extends Activity {
     
     public void updateList() {
         mFishes.add(new Fish(Static.GOOD_HUNTING_MESSAGES[mArrayValue], Static.FISH_ARRAY[mArrayValue]));
-}
+        mGrid.setAdapter(mAdapter);
+    }
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -88,21 +90,11 @@ public class SonyPreferenceActivity extends Activity {
     	
         int intentArrayValue = intent.getIntExtra("gotFish", intKey);
         mArrayValue = intentArrayValue;
-           
-//            String x = intent.getStringExtra("x-value");
-//            String y = intent.getStringExtra("y-value");
-//            String z = intent.getStringExtra("z-value");
-            
-             
-            updateList();
+        
+        Log.d("sonypreferenceactivity", "got intent!");
 
-            TextView xValue = (TextView) findViewById(R.id.textView_xvalue);
-            TextView yValue = (TextView) findViewById(R.id.textView_yvalue);
-            TextView zValue = (TextView) findViewById(R.id.textView_zvalue);
-           
-            xValue.setText(" ");
-            yValue.setText(" ");
-            zValue.setText(" ");
+        updateList();
+
     }
     
     @Override
@@ -123,5 +115,12 @@ public class SonyPreferenceActivity extends Activity {
     	}
     	return false;
     }
+    
+    
+    public void loadBitmap() {
+    	
+    	
+    }
+    
 
 }

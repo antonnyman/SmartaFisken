@@ -5,6 +5,9 @@ import java.util.ArrayList;
 
 
 
+
+import com.squareup.picasso.Picasso;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +43,7 @@ public class FishGridAdapter extends ArrayAdapter<Fish> {
             if(fish != null) {
                     ImageView fishImage = (ImageView) convertView.findViewById(R.id.fish_gridView_item_image);
                     TextView goodHunting = (TextView) convertView.findViewById(R.id.fish_gridview_item_goodHunting);
-                    fishImage.setImageResource(fish.getFishImage());
+                    Picasso.with(mContext).load(fish.getFishImage()).into(fishImage);
                     goodHunting.setText(fish.getGoodHunting());
             }
             return convertView;

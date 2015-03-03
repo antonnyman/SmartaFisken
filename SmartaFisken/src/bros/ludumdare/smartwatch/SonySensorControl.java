@@ -32,29 +32,14 @@
 
 package bros.ludumdare.smartwatch;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.hardware.SensorEvent;
-import android.os.Handler;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.webkit.WebView.FindListener;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+
 
 import com.sonyericsson.extras.liveware.aef.control.Control;
-import com.sonyericsson.extras.liveware.aef.registration.Registration;
 import com.sonyericsson.extras.liveware.aef.registration.Registration.SensorTypeValue;
 import com.sonyericsson.extras.liveware.aef.sensor.Sensor;
-import com.sonyericsson.extras.liveware.aef.sensor.Sensor.SensorAccuracy;
 import com.sonyericsson.extras.liveware.extension.util.control.ControlExtension;
 import com.sonyericsson.extras.liveware.extension.util.control.ControlTouchEvent;
 import com.sonyericsson.extras.liveware.extension.util.registration.DeviceInfoHelper;
@@ -64,8 +49,6 @@ import com.sonyericsson.extras.liveware.extension.util.sensor.AccessorySensorEve
 import com.sonyericsson.extras.liveware.extension.util.sensor.AccessorySensorException;
 import com.sonyericsson.extras.liveware.extension.util.sensor.AccessorySensorManager;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -102,21 +85,21 @@ class SonySensorControl extends ControlExtension {
     	    
     	    currentTime = System.currentTimeMillis() - startTime;
     	    
-    	    if(y > 9 && currentTime > delay && currentTime < delay + 750) {
+    	    
+    	    if(y > 9 && currentTime > (delay + 200) && currentTime < (delay + 750)) {
+    	    
+    	    	Log.d("times", "currentTime: " + currentTime + " delay: " + delay + " y: "+ y + "");
     	    	
                 Intent intent = new Intent(mContext, SonyPreferenceActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         	    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//        	    intent.putExtra("x-value", Float.toString(x));
-//        	    intent.putExtra("y-value", Float.toString(y));
-//        	    intent.putExtra("z-value", Float.toString(z));
 	    		intent.putExtra("gotFish", rndm);
     	    	mContext.startActivity(intent);
     	    	unregister();
     	    	ryck = true;
-    	    	
-    	    } else if (currentTime > delay + 750 && ryck == false) {
+    	    	showLayout(R.layout.sensor, null);
+    	    } else if (currentTime > (delay + 750) && ryck == false) {
     	    	ryck = false;
     	    	onResume();
     	    }   	    
@@ -149,6 +132,7 @@ class SonySensorControl extends ControlExtension {
     public void onResume() {
     	
         register();
+        showLayout(R.layout.sensor2, null);
     	ryck = false;
     	rndm = Static.randomInt(0, 9);
         startTime = System.currentTimeMillis();
@@ -158,7 +142,8 @@ class SonySensorControl extends ControlExtension {
         fiskTimer = new Timer();
         TimerTask fiskTask = new TimerTask() {
         	public void run() {
-        		startVibrator(100, 1, 1);
+        		startVibrator(50, 1, 1);
+        		showLayout(R.layout.napp, null);
         	}
         };
         fiskTimer.schedule(fiskTask, delay); 
